@@ -9,9 +9,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cd functions && npm install
+      
+      # Crea el archivo JSON de credenciales temporalmente
+      - name: Crear archivo de credenciales
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LENGUAS_INDIGENAS }}' > service-account.json
+        
+      # Despliega usando la variable oficial que pide Firebase
       - uses: w9jds/firebase-action@master
         with:
           args: deploy --only functions
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LENGUAS_INDIGENAS }}
+          GOOGLE_APPLICATION_CREDENTIALS: service-account.json
           PROJECT_ID: lenguas-17b7d
