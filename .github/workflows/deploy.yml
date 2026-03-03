@@ -1,4 +1,4 @@
-name: Deploy to Firebase
+name: Deploy to Firebase Functions
 on:
   push:
     branches:
@@ -9,8 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cd functions && npm install
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: w9jds/firebase-action@master
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LENGUAS_INDIGENAS }}'
-          projectId: lenguas-17b7d
+          args: deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LENGUAS_INDIGENAS }}
+          PROJECT_ID: lenguas-17b7d
